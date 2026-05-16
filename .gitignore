@@ -2,6 +2,8 @@ node_modules/
 server/node_modules/
 client/node_modules/
 server/db/moviefinder.db
+server/db/moviefinder.db-shm
+server/db/moviefinder.db-wal
 client/dist/
 .env
 *.local
