@@ -15,9 +15,7 @@ import profileRoutes from './routes/profile.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({
-  origin: process.env.CLIENT_URL ? [process.env.CLIENT_URL, 'http://localhost:5173'] : true,
-}));
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -26,6 +24,11 @@ app.use('/api/watchlist', watchlistRoutes);
 app.use('/api/reviews', reviewsRoutes);
 app.use('/api/share', shareRoutes);
 app.use('/api/profile', profileRoutes);
+
+// Serve React build in production
+const clientDist = join(__dirname, '..', 'client', 'dist');
+app.use(express.static(clientDist));
+app.get('*', (req, res) => res.sendFile(join(clientDist, 'index.html')));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
